@@ -29,7 +29,7 @@
 #   in class.  Here I just write Past(love(Jill,Joe)) instead of
 #     E%e past(e) ^ act(e,loving) ^ lover(e,Joe) ^ lovee(e,Jill)
 #   This could be fixed (especially with some slashed category support),
-#   but the semantics was already hard enough to read!  
+#   but the semantics was already hard enough to read!
 #
 # - There is no attempt to figure out what pronouns refer to.
 #
@@ -57,14 +57,14 @@
 
 1 ROOT[sem="Assert(Speaker, 1)" head=1]	S .
 1 ROOT[sem="Exclaim(Speaker, 1)" head=1]	S !
-1 ROOT[sem="Command(Speaker, 1(Hearer))" head=1] VP[tense=stem] !  
+1 ROOT[sem="Command(Speaker, 1(Hearer))" head=1] VP[tense=stem] !
 
 
 # A verb phrase in English is made by combining a verb with some
 # following material.  The kind of material that the verb wants is
 # indicated by its arg attribute.  For example, arg=np means that the
-# verb wants an NP, traditionally called a direct object.  
-# 
+# verb wants an NP, traditionally called a direct object.
+#
 # (Note: There is an obvious similarity to slashed categories here
 # since the V is a VP (or S) with missing material.  "Categorial
 # grammar" is an approach that combines the two ideas: it writes
@@ -74,13 +74,13 @@
 # ********************
 # For the arg=np case, the semantics changed
 # from 1(2) -- or equivalently %subj 1(2,subj) --
-# to %subj 2(%obj 1(obj,subj)).  
+# to %subj 2(%obj 1(obj,subj)).
 # You have to fix the arg=npvpinf case.
 # ********************
 1 VP[=1]		   V[arg=none]                     # intransitive verbs: "sleep"
 1 VP[=1 sem="%subj 2(%obj 1(obj,subj))"] V[arg=np] NP      # transitive verbs: "kiss Jill"
 1 VP[=1 tense=1 sem=1(2)]  V[arg=vpinf] VP[tense=inf]      # "want to eat"
-1 VP[=1 tense=1 sem="???"] V[arg=npvpinf] NP VP[tense=inf] # "want him to eat"
+1 VP[=1 tense=1 sem="%subj 3(2(%obj 1(obj,subj)))"] V[arg=npvpinf] NP VP[tense=inf] # "want him to eat"
 1 VP[=1 sem=1(2)]	   V[arg=cp] CP 		   # "say that ..."
 
 # Linking verbs are nice to have too.
@@ -111,7 +111,7 @@
 # "is having eaten," which does not occur in my dialect of English,
 # not to mention "have had had eaten.")
 #
-# Notice what is going on with the semantics here: 
+# Notice what is going on with the semantics here:
 
 1 VP[=1 tense=1 head=2 sem="%subj Perf(2(subj))"]  V[head=have] VP[tense=pastp]
 1 VP[=1 tense=1 head=2 sem="%subj Prog(2(subj))"]  V[head=be] VP[tense=presp]
@@ -135,21 +135,21 @@
 # splits the stem from the suffix in an input verb, both for regular
 # and irregular verbs.  Thus the input is assumed to be "the president
 # eat -ed the pickle" rather than "the president ate the pickle."
-# 
+#
 # The tense attribute from the suffix will be carried along as the
 # verbs combine with other material to make full verb phrases and
 # eventually sentences.  The attribute ends up affecting the semantics
 # only at the end of that process -- specifically, in the S NP VP rule.
 #
-# Note: It would be nicer to treat these cases like the compound tenses.  
-# We could have done so if the morphology produced "the president -ed eat 
+# Note: It would be nicer to treat these cases like the compound tenses.
+# We could have done so if the morphology produced "the president -ed eat
 # the pickle," with the suffix coming BEFORE the verb.  Then -ed could be
 # regarded as a kind of auxiliary verb (which applies only after the
 # verb has gotten everything but the subject):
-#   VP[=2 tense=past sem="%subj Past(2(subj))]  -ed VP[tense=stem]  
+#   VP[=2 tense=past sem="%subj Past(2(subj))]  -ed VP[tense=stem]
 
 1 V[=1 tense=past]	V[tense=stem] -ed
-1 V[=1 tense=pastp]	V[tense=stem] -ed 
+1 V[=1 tense=pastp]	V[tense=stem] -ed
 1 V[=1 tense=presp]	V[tense=stem] -ing
 1 V[=1 tense=pres num=sing]	V[tense=stem] -s
 1 V[=1 tense=pres num=pl]	V[tense=stem] -0   # -0 is an "empty morpheme"
@@ -157,12 +157,12 @@
 
 # For the auxiliary verbs "have" and "be," we'll also put all the
 # (3rd-person) inflected forms directly into the grammar, so that the
-# poor user doesn't have to simulate a morphology program and type 
-# "have -0 be -ed eat -ing" for "have been eating" but can get away 
-# with "have been eat -ing" instead.  
-# 
+# poor user doesn't have to simulate a morphology program and type
+# "have -0 be -ed eat -ing" for "have been eating" but can get away
+# with "have been eat -ing" instead.
+#
 # Note that when these are used as auxiliary verbs, their head, sem,
-# and arg attributes are simply ignored.  
+# and arg attributes are simply ignored.
 
 1 V[head=have arg=np sem=possess tense=stem]		have
 1 V[head=have arg=np sem=possess tense=past]		had
@@ -179,7 +179,7 @@
 1 V[head=be arg=pred sem="%pred %subj pred(subj)" tense=pres num=sing] 	is
 1 V[head=be arg=pred sem="%pred %subj pred(subj)" tense=pres num=pl] 	are
 
-1 V[=1 arg=none tense=stem sem="%subj 1(subj)"] go    
+1 V[=1 arg=none tense=stem sem="%subj 1(subj)"] go
 
 
 # And now for some meaningful verb stems.  In most cases we could just
@@ -204,7 +204,7 @@
 1 V[=1 tense=stem arg=none sem="%subj 1(SOMETHING,subj)"]  entice
 
 
-# Some NPs, including both proper names and (3rd-person) pronouns.  We treat 
+# Some NPs, including both proper names and (3rd-person) pronouns.  We treat
 # the subject pronouns as inflected forms, so that "she loves him" comes
 # out as loves(him,her) rather than loves(him,she).
 # 
@@ -226,7 +226,7 @@
 1 NPx[=1 num=sing] Joe
 1 NPx[=1 num=sing] Jill
 1 NPx[=1 num=sing case=obj] her
-1 NPx[=1 num=sing case=subj sem=her] she        
+1 NPx[=1 num=sing case=subj sem=her] she
 1 NPx[=1 num=sing case=obj] him
 1 NPx[=1 num=sing case=subj sem=him] he
 1 NPx[=1 num=sing case=subj] it
@@ -256,8 +256,8 @@
 # ********************
 # The real action is in the new definitions
 # of the determiners -- ALL of the determiners
-# below, right through "its" and "their."  We saw another 
-# way of representing determiners' semantics in class, but 
+# below, right through "its" and "their."  We saw another
+# way of representing determiners' semantics in class, but
 # you preferred good old "there exists" (E%)
 # and "for all" (A%), so here they are.
 #
@@ -322,7 +322,7 @@
 
 
 # Adjective morphology also exists ("finer", "finest", "more delicious" ...)
-# but we ignore it here.  
+# but we ignore it here.
 
 1 Adj	fine
 1 Adj	blue
@@ -335,7 +335,7 @@
 
 1 P with
 1 P on
-1 P onto     
+1 P onto
 1 P under
 1 P in
 
@@ -347,10 +347,10 @@
 # makes this necessary).
 
 # ********************
-# The semantics for "NP and NP" had to 
-# change because NPs are now regarded as 
+# The semantics for "NP and NP" had to
+# change because NPs are now regarded as
 # functions that take a predicate as an argument.
 # ********************
 1 Adj[=2 sem="%x 1(x)^3(x)"] Adj and Adj  # "fine and blue woman" has both properties
-1 NP[=2 num=pl sem="%pred 1(pred) ^ 3(pred)"] NP and NP    
+1 NP[=2 num=pl sem="%pred 1(pred) ^ 3(pred)"] NP and NP
 1 VP[=2 sem="%subj 1(subj) ^ 3(subj)"] VP[tense=0] and VP[tense=0]
